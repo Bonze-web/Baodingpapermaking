@@ -1,0 +1,75 @@
+@r : 9vw;
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+.page-box {
+    // overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.goudan {
+    img {
+        pointer-events: none;
+        width: 100%;
+    }
+}
+.stq {
+    position: absolute;
+    width: 324/@r;
+    height: 453/@r;
+    background-color: red;
+}
+.stqNum0 {
+    top: 905/@r;
+    left: 182/@r;
+}
+.stqNum1 {
+    top: 1687/@r;
+    left: 182/@r;
+}
+.nav-btn {
+    position: fixed;
+    width: 39/@r;
+    height: 719/@r;
+    right: 94/@r;
+    top: 50%;
+    transform: translateY(-50%);
+    .style-change {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 0;
+        background-color: #d5fafe;
+        width: 60/@r;
+        height: 60/@r;
+        line-height: 60/@r;
+        text-align: center;
+        font-size: 16/@r;
+        border: 1px #ccc solid;
+        border-radius: 50%;
+        transition: top 1s;
+    }
+    .point {
+        position: absolute;
+        z-index: 999;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        height: 100%;
+        width: 5/@r;
+        background-color: red;
+        li {
+            position: absolute;
+            width: 15/@r;
+            height: 15/@r;
+            border-radius: 50%;
+            background-color: blue;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+    }
+}

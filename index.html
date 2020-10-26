@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+<body>
+    <div id="wrapper" class="page-box">
+        <div class="nav-btn">
+            <div>
+                <img src="./img/img1.png" alt="">
+            </div>
+            <ul class="point">
+                <li v-for="item in fn1" :class="'dot_'+item" :style="{top:item*57/9+1+'vw'}" @click="posChange(item)"></li>
+            </ul>
+            <div class="style-change" :style="{top:mtop}">
+                平度
+            </div>
+        </div>
+        <div class="goudan"><img src="./img/img2.png" alt=""></div>
+        <div v-for="item in fn1" class="stq" :class="'stqNum'+item"></div>
+    </div>
+   
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/index.js"></script>
+    <script>
+        //首先总结需要使用到的工具
+        //scrollTo(x, y, time, easing)可以使页面滚动到固定的位置;但是还有一个更强大的方法scrollToElement(el, time, offsetX, offsetY, easing).只要在第一个参数上写上元素,就能够滚动到这里
+        //使用什么来监听呢?其实完全使用原生的scroll事件监听,但我也可以使用iscroll的on("scroll",function);
+        //现在已经能够实现点击能够滚动,滑动能够监听,现在还需要的就是配合vue去修改页面,怎么实现vue排他?就是使用将data里面的数据进行数字修改
+        let vm = new Vue({
+            el : "#wrapper",
+            data : {
+                mArr : [],
+                myIdx : 0,
+                isSw : false,
+            },
+            computed: {
+                fn1() {
+                    return new Array(13).fill(0)
+                    .map((item,idx)=>{
+                        return idx;
+                    })
+                },
+                mtop() {
+                    return 43 * this.myIdx / 9 + "vw";
+                },
+                pos(){
+                    let ditAll = document.querySelectorAll(".stq");
+                    for(let i=0;i<ditAll.length;i++) {
+                        let zz = ditAll[i];
+                        this.mArr.push({wz:zz.offsetTop,hei:zz.clientHeight});
+                    }
+                    return this.mArr;
+                }
+            },
+            mounted() {
+                window.addEventListener("scroll",()=>{
+                    let distance = document.documentElement.scrollTop || document.body.scrollTop||window.pageYOffset;
+                    for(let i=0;i<this.pos.length;i++) {
+                        let tt = this.pos[i].hei+this.pos[i].wz;
+                        if(distance>this.pos[i].wz&&distance<tt) {
+                            this.jump(i);
+                        }
+                        else if (distance<this.pos[0].wz) {
+                            this.jump(-1);
+                        }
+                    }
+                  
+                })
+            },
+            methods : {
+                jump(idx) {
+                    this.myIdx = idx+1;
+                },
+                posChange(idx) {
+                    console.log(this.pos[idx].wz);
+                    console.log(document.documentElement.scrollTop);
+                    document.documentElement.scrollTop = this.pos[idx].wz;
+                    document.body.scrollTop = this.pos[idx].wz;
+                    window.pageYOffset = this.pos[idx].wz;
+                    this.jump(idx) ;
+                }
+            }
+        })
+    </script>
+</body>
+</html>
